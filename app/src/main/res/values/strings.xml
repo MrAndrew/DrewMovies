@@ -21,6 +21,6 @@
     and try again.</string>
 
     <!--Accessibility stuff-->
-    <string name="movie_iv_content_description">An image of the movie</string>
+    <string name="movie_iv_content_description">An image of the movie </string>
 
 </resources>

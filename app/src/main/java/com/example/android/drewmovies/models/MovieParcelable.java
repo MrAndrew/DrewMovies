@@ -3,10 +3,7 @@ package com.example.android.drewmovies.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
-
-//serilizable to allow transfer of an object instance to an intent
-public class Movie implements Serializable {
+public class MovieParcelable implements Parcelable {
 
     private Integer movieId;
     private String movieTitle;
@@ -15,18 +12,30 @@ public class Movie implements Serializable {
     private String releaseDate;
     private Double userRating;
 
-    public Movie() {
-
+    public MovieParcelable(Parcel in) {
+        this.movieId = in.readInt();
+        this.movieTitle = in.readString();
+        this.imageUrlPath = in.readString();
+        this.about = in.readString();
+        this.releaseDate = in.readString();
+        this.userRating = in.readDouble();
     }
 
-    public Movie (Integer movieId, boolean hasVideo, String movieTitle, String imageUrlpath,
-                  String about, String releaseDate, Double userRating) {
-        this.movieId = movieId;
-        this.movieTitle = movieTitle;
-        this.imageUrlPath = imageUrlpath;
-        this.about = about;
-        this.releaseDate = releaseDate;
-        this.userRating = userRating;
+    public MovieParcelable () {
+
+    }
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(movieId);
+        dest.writeString(movieTitle);
+        dest.writeString(imageUrlPath);
+        dest.writeString(about);
+        dest.writeString(releaseDate);
+        dest.writeDouble(userRating);
+    }
+
+    public int describeContents() {
+        return 0;
     }
 
     //getters
@@ -66,5 +75,17 @@ public class Movie implements Serializable {
         this.releaseDate = releaseDate;
     }
     public void setUserRating(Double userRating) { this.userRating = userRating; }
+
+    static final Parcelable.Creator<MovieParcelable> CREATOR
+            = new Parcelable.Creator<MovieParcelable>() {
+
+        public MovieParcelable createFromParcel(Parcel in) {
+            return new MovieParcelable(in);
+        }
+
+        public MovieParcelable[] newArray(int size) {
+            return new MovieParcelable[size];
+        }
+    };
 
 }

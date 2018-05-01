@@ -35,4 +35,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.googlecode.json-simple:json-simple:1.1'
     implementation 'com.android.support:preference-v7:27.1.1'
+    //for ButterKnife library to bind views
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

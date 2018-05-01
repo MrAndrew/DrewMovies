@@ -17,11 +17,15 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.android.drewmovies.models.Movie;
+import com.example.android.drewmovies.models.MovieParcelable;
 import com.example.android.drewmovies.utils.NetworkUtils;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 //TODO GIVE TMDb ATTRIBUTION FOR ALL CONTENT AS PART OF THEIR TERMS OF SERVICE REQUIREMENT
@@ -30,15 +34,14 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     final static private String TAG = MainActivity.class.getSimpleName();
-    private GridView moviesGridView;
+    @BindView(R.id.movie_posters_gv) GridView moviesGridView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        moviesGridView = findViewById(R.id.movie_posters_gv);
+        ButterKnife.bind(this);
 
         //shared preference methods will handle calling the async task to load movie data
         setupSharedPreferences();
@@ -115,13 +118,13 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     //inner class to async load movie list (suppress to get lint error to go away, cannot make it static)
     @SuppressLint("StaticFieldLeak")
-    class MovieDbQueryTask extends AsyncTask<URL, Void, ArrayList<Movie>> {
+    class MovieDbQueryTask extends AsyncTask<URL, Void, ArrayList<MovieParcelable>> {
 
         @Override
-        protected ArrayList<Movie> doInBackground(URL... urls) {
+        protected ArrayList<MovieParcelable> doInBackground(URL... urls) {
             URL loadMoviesUrl = urls[0];
             Log.v(TAG, "loadMoviesUrl: "+ urls[0]);
-            ArrayList<Movie> movieDbResults = null;
+            ArrayList<MovieParcelable> movieDbResults = null;
             try {
                 movieDbResults = NetworkUtils.loadMoviesJsonFromUrl(loadMoviesUrl);
             } catch (IOException e) {
@@ -131,12 +134,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
 
         @Override
-        protected void onPostExecute(final ArrayList<Movie> movies) {
+        protected void onPostExecute(final ArrayList<MovieParcelable> movies) {
             Log.d(TAG, "ArrayList<Movie>: " + movies);
             if (movies != null) {
                 ArrayList<String> moviePosterUrls = new ArrayList<>();
                 for(int i = 0; i < movies.size(); i++) {
-                    String urlPath = movies.get(i).getImageUrlpath();
+                    String urlPath = movies.get(i).getImageUrlPath();
                     String imageUrl = NetworkUtils.buildImageRequestUrl(urlPath);
                     moviePosterUrls.add(imageUrl);
                 }

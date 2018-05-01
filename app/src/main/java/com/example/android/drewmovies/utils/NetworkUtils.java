@@ -1,8 +1,10 @@
 package com.example.android.drewmovies.utils;
 
 import android.net.Uri;
+import android.os.Parcel;
 import android.util.Log;
 import com.example.android.drewmovies.models.Movie;
+import com.example.android.drewmovies.models.MovieParcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +43,7 @@ public class NetworkUtils {
     final private static String PARAM_PAGE = "page";
     final private static String page_num = "1";
     //TODO API KEY, REMOVE BEFORE PUTTING ON GIT!
-    final private static String api_key = "<<api_key>>";
+    final private static String api_key = "<<APIKEY>>";
     final private static String PARAM_API_KEY = "api_key";
 
     //JSON Keys
@@ -116,7 +118,7 @@ public class NetworkUtils {
         return builtUri.toString();
     }
 
-    public static ArrayList<Movie> loadMoviesJsonFromUrl(URL url) throws IOException {
+    public static ArrayList<MovieParcelable> loadMoviesJsonFromUrl(URL url) throws IOException {
         String dlJsonString = null;
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
@@ -146,10 +148,10 @@ public class NetworkUtils {
         return parseMoviesJson(dlJsonString);
     }
 
-    private static ArrayList<Movie> parseMoviesJson(String jsonString) {
+    private static ArrayList<MovieParcelable> parseMoviesJson(String jsonString) {
 
         //create new arraylist of movie objects to return
-        ArrayList<Movie> moviesList = new ArrayList<>();
+        ArrayList<MovieParcelable> moviesList = new ArrayList<>();
 
         String veryLongString = jsonString;
         int maxLogSize = 1000;
@@ -185,14 +187,13 @@ public class NetworkUtils {
             //loop through all the objects in the results array that should be returned in the JSON
             for(int i = 0; i <= moviesJsonArray.length(); i++) {
                 //create new movie object
-                Movie movie = new Movie();
+                MovieParcelable movie = new MovieParcelable();
                 JSONObject movieJsonObj = moviesJsonArray.getJSONObject(i);
                 Log.v(TAG, "movieJsonArray[" + i + "] : " + movieJsonObj);
                 //set values to object within the array
                 movie.setMovieId(movieJsonObj.getInt(KEY_MOVIE_ID));
-                movie.setHasVideo(movieJsonObj.getBoolean(KEY_HAS_VIDEO));
                 movie.setMovieTitle(movieJsonObj.getString(KEY_MOVIE_TITLE));
-                movie.setImageUrlpath(movieJsonObj.getString(KEY_MOVIE_IMAGE_PATH));
+                movie.setImageUrlPath(movieJsonObj.getString(KEY_MOVIE_IMAGE_PATH));
                 movie.setAbout(movieJsonObj.getString(KEY_DESCRIPTION));
                 movie.setReleaseDate(movieJsonObj.getString(KEY_RELEASE_DATE));
                 movie.setUserRating(movieJsonObj.getDouble(KEY_USER_RATING));

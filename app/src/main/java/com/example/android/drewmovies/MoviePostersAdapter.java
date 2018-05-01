@@ -6,11 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.example.android.drewmovies.models.MovieParcelable;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
 
 class MoviePostersAdapter extends ArrayAdapter {
 
@@ -38,6 +42,8 @@ class MoviePostersAdapter extends ArrayAdapter {
 
         Picasso.get()
                 .load(imageUrls.get(position))
+                .placeholder(R.drawable.the_movie_db_icon)
+                .error(R.drawable.the_movie_db_icon)
                 .into((ImageView) convertView);
 
         return convertView;
