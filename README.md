@@ -11,6 +11,10 @@ Note: Android Studio may ask you to update certain dependencies. This is not rec
 
 ### Built With
 
+Along with base Android Studio tools (gradle, Java, standard Google dependencies) this project also implements: 
+
+* [ButterKnife](https://github.com/JakeWharton/butterknife) - Library for easy binding of Android Views using an anotation processor
+
 ### Author
 
 * __Mr. Andrew__ - _Wrote code and implemented app following provided guidelines outlying desired functionality._ - [Mr.Andrew](http://github.com/Mrandrew7of9)
